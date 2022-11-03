@@ -7,8 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.util.Date;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "users")
 public class User {

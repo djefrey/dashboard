@@ -1,5 +1,7 @@
 package fr.kirikou.Dashboard;
 
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +24,8 @@ public class DashboardSecurity {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .antMatchers("/user/register").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/register", "/oauth/**").permitAll()
                 .antMatchers("/login/*").permitAll()
                 .anyRequest().authenticated()
 
