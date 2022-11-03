@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -16,6 +17,7 @@ public class User {
     private @Column(length = 60) String password;
     private @Column(unique = true) String email;
     private @CreationTimestamp @Temporal(TemporalType.DATE) Date registerDate;
+    private @OneToOne OAuthToken googleToken;
 
     public UserDTO toDTO() {
         UserDTO data = new UserDTO();

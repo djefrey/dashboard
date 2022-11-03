@@ -69,5 +69,7 @@ public class DashboardUserDetailsService implements UserDetailsService {
         public boolean isEnabled() {
             return true;
         }
+
+        public User getUser() { return user; }
     }
 }

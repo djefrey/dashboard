@@ -25,7 +25,8 @@ public class DashboardSecurity {
         http.csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/register", "/oauth/**").permitAll()
+                .antMatchers("/oauth/**").authenticated()
+                .antMatchers("/user/register").permitAll()
                 .antMatchers("/login/*").permitAll()
                 .anyRequest().authenticated()
 
