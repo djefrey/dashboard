@@ -21,11 +21,11 @@ public class UserService {
 
     public User createUser(UserRegisterDTO data) throws Exception {
         if (data.getUsername().length() < 4) {
-            throw new Exception("name too short");
+            throw new Exception("name too short - to change !!!!!!!");
         }
 
         if (data.getPassword().length() < 8) {
-            throw new Exception("password too short");
+            throw new Exception("password too short - to change !!!!!!!");
         }
 
         if (isEmailUsed(data.getEmail())) {
@@ -40,12 +40,29 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User createUserFromOAuth(String name, String email) throws Exception {
+        if (isEmailUsed(email)) {
+            throw new Exception("email used - to change !!!!!!!");
+        }
+
+        User user = new User();
+        user.setName(name);
+        user.setEmail(email);
+        user.setPassword(null);
+
+        return userRepository.save(user);
+    }
+
     public boolean isEmailUsed(String email) {
-        return userRepository.getUserByEmail(email) != null;
+        return userRepository.getUserByEmail(email).isPresent();
     }
 
     public Optional<User> getUser(Long id) {
         return userRepository.findById(id);
+    }
+
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.getUserByEmail(email);
     }
 
     public List<User> getUsers() {

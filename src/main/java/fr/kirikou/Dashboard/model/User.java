@@ -4,6 +4,7 @@ import fr.kirikou.Dashboard.dto.UserDTO;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 public class User {
     private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
     private String name;
-    private @Column(length = 60) String password;
+    private @Nullable @Column(length = 60) String password;
     private @Column(unique = true) String email;
     private @CreationTimestamp @Temporal(TemporalType.DATE) Date registerDate;
     private @OneToOne OAuthToken googleToken;

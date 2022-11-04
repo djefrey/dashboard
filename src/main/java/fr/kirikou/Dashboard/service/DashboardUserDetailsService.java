@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DashboardUserDetailsService implements UserDetailsService {
@@ -20,10 +21,10 @@ public class DashboardUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.getUserByEmail(email);
-        if (user == null)
+        Optional<User> user = userRepository.getUserByEmail(email);
+        if (user.isEmpty())
             throw new UsernameNotFoundException(email);
-        return new DashboardUserDetails(user);
+        return new DashboardUserDetails(user.get());
     }
 
     public class DashboardUserDetails implements UserDetails {
@@ -62,7 +63,7 @@ public class DashboardUserDetailsService implements UserDetailsService {
 
         @Override
         public boolean isCredentialsNonExpired() {
-            return true;
+            return user.getPassword() != null;
         }
 
         @Override

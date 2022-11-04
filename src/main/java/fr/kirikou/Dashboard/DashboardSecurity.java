@@ -1,7 +1,8 @@
 package fr.kirikou.Dashboard;
 
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.gson.GsonFactory;
+import fr.kirikou.Dashboard.repository.UserRepository;
+import fr.kirikou.Dashboard.service.DashboardOAuth2UserService;
+import fr.kirikou.Dashboard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,43 +12,54 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.stereotype.Component;
 
 @Configuration
 @EnableWebSecurity
 public class DashboardSecurity {
     @Autowired
+    private UserService userService;
+    @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/oauth/**").authenticated()
+                .antMatchers("/oauth/**").permitAll()
                 .antMatchers("/user/register").permitAll()
-                .antMatchers("/login/*").permitAll()
+                .antMatchers("/login/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
                 .formLogin().loginProcessingUrl("/login")
 
                 .and()
-                .logout().logoutUrl("/logout.html").logoutUrl("/logout");
+                .logout().logoutUrl("/logout.html").logoutUrl("/logout")
+
+                .and()
+                .oauth2Login()
+                .defaultSuccessUrl("/loginSuccess")
+                .userInfoEndpoint().userService(oauth2UserService());
+
         return http.build();
     }
-
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Bean
     public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(encoder());
+        authProvider.setPasswordEncoder(encoder);
         return authProvider;
+    }
+
+    public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() {
+        return new DashboardOAuth2UserService(userService);
     }
 }
