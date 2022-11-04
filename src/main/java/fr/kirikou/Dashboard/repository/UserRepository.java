@@ -1,6 +1,5 @@
 package fr.kirikou.Dashboard.repository;
 
-import fr.kirikou.Dashboard.model.OAuthToken;
 import fr.kirikou.Dashboard.model.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

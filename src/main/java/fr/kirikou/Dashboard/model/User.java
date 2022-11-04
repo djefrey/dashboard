@@ -18,7 +18,6 @@ public class User {
     private @Nullable @Column(length = 60) String password;
     private @Column(unique = true) String email;
     private @CreationTimestamp @Temporal(TemporalType.DATE) Date registerDate;
-    private @OneToOne OAuthToken googleToken;
 
     public UserDTO toDTO() {
         UserDTO data = new UserDTO();
