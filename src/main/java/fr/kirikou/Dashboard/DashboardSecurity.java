@@ -39,8 +39,8 @@ public class DashboardSecurity {
                 .and()
                 .formLogin()
                     .loginProcessingUrl("/login.html")
-                    .defaultSuccessUrl("/login_success", true)
-                    .failureForwardUrl("/login_failure")
+                    .defaultSuccessUrl("/index.html", true)
+                    .failureUrl("/login.html?error=true")
 
                 .and()
                     .logout()

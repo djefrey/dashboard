@@ -1,8 +1,14 @@
 import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 export default function (props) {
+    const [searchParams] = useSearchParams();
+
     return (
         <div className="Auth-form-container">
+            {
+                searchParams.get("error") && <h4>Error</h4>
+            }
             <form className="Auth-form">
                 <div className='Auth-form-content'>
                     <h3 className='Auth-form-title'>Log In</h3>
@@ -18,7 +24,7 @@ export default function (props) {
                     </div>
 
                     <div className='d-grid gap-2 mt-3'>
-                        <button type='submit' className='btn btn-primary'>Submit</button>
+                        <button type='submit' className='btn btn-primary' formMethod='POST'>Submit</button>
                     </div>
                 </div>
             </form>
