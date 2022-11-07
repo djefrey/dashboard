@@ -6,6 +6,7 @@ import fr.kirikou.Dashboard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -32,22 +33,25 @@ public class DashboardSecurity {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/oauth/**").permitAll()
-                .antMatchers("/user/register").permitAll()
-                .antMatchers("/login/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/*.html", "/static/**", "/*.js", "/*.json", "/*.ico").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
-                .formLogin().loginProcessingUrl("/login")
+                .formLogin()
+                    .loginProcessingUrl("/login.html")
+                    .defaultSuccessUrl("/login_success", true)
+                    .failureForwardUrl("/login_failure")
 
                 .and()
-                .logout().logoutUrl("/logout.html").logoutUrl("/logout")
+                    .logout()
+                    .logoutUrl("/logout.html")
+                    .logoutUrl("/logout")
 
                 .and()
-                .oauth2Login()
-                .defaultSuccessUrl("/loginSuccess")
-                .userInfoEndpoint().userService(oauth2UserService());
+                    .oauth2Login()
+                    .defaultSuccessUrl("/loginSuccess")
+                    .userInfoEndpoint()
+                        .userService(oauth2UserService());
 
         return http.build();
     }

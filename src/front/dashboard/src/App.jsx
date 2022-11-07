@@ -1,5 +1,6 @@
 import logo from './Logo.png'
 import Widget from './Widget';
+import { Link } from 'react-router-dom';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             Button
           </button>
         </div>
+        <Link to="/login.html">Login</Link>
       </div>
     </div>
   );
