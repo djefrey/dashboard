@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 export default function (props) {
     const [searchParams] = useSearchParams();
@@ -29,7 +29,7 @@ export default function (props) {
                 </div>
             </form>
             <div className='Auth-oauth-content'>
-                <a>Google</a>
+                <a href="/oauth2/authorization/google">Google</a>
             </div>
         </div>
     )

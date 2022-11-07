@@ -34,10 +34,11 @@ public class DashboardSecurity {
         http.csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers(HttpMethod.GET, "/*.html", "/static/**", "/*.js", "/*.json", "/*.ico").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/api/**").authenticated()
+                .anyRequest().denyAll()
 
                 .and()
-                .formLogin()
+                    .formLogin()
                     .loginProcessingUrl("/login.html")
                     .defaultSuccessUrl("/index.html", true)
                     .failureUrl("/login.html?error=true")
@@ -45,11 +46,10 @@ public class DashboardSecurity {
                 .and()
                     .logout()
                     .logoutUrl("/logout.html")
-                    .logoutUrl("/logout")
 
                 .and()
                     .oauth2Login()
-                    .defaultSuccessUrl("/loginSuccess")
+                    .defaultSuccessUrl("/index.html")
                     .userInfoEndpoint()
                         .userService(oauth2UserService());
 
