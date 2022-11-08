@@ -7,27 +7,25 @@ import {useRef} from 'react';
 function App() {
   const [showForm, setShowForm] = useState(false);
 
+  const [widgetList, setWidgetList] = useState([]);
+  const [nextId, setNextId] = useState(0);
+  const widgetName = useRef(null);
+
   const handleForm = event => {
     setShowForm(!showForm);
   }
 
-  const [widgetList, setWidgetList] = useState([]);
-
   const deleteWidget = (nbr) => {
-    console.log(nbr);
-    const newList = widgetList.filter((_, i) => i !== nbr);
-    console.log(newList)
-    setWidgetList(newList);
-}
+    setWidgetList(widgetList => widgetList.filter(widget => widget.props.id !== nbr));
+  }
 
-  const widgetName = useRef(null);
   const formSubmit = event => {
     event.preventDefault();
-    const nextIndex = widgetList.length
-    setWidgetList([
+    setWidgetList(widgetList => ([
       ...widgetList,
-      <Widget key={widgetList.length} name={widgetName.current.value} nbr={nextIndex} functionDelete={deleteWidget}/>
-    ]);
+      <Widget key={widgetList.length} name={widgetName.current.value} id={nextId} functionDelete={deleteWidget}/>
+    ]));
+    setNextId(nextId + 1);
     handleForm();
   }
 
