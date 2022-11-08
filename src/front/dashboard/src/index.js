@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import './index.css';
 import Auth from './jsx/Auth';
 import App from './jsx/App';
@@ -10,6 +10,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
+      <Route path="/" element={<Navigate to="/index.html" />} />
       <Route path='/index.html' element={<App />} />
       <Route path='/login.html' element={<Auth />} />
     </Routes>
