@@ -18,6 +18,30 @@ function App() {
     setShowForm(!showForm);
   }
 
+  const moveWidgetUp = (id) => {
+    var position = widgetList.findIndex(widget => widget.props.id === id);
+    if (position - 1 === -1)
+    return
+    var newList = widgetList;
+    console.log(newList);
+    var tmp = newList[position - 1];
+    newList[position - 1] = newList[position];
+    newList[position] = tmp
+    setWidgetList(newList);
+  }
+
+  const moveWidgetDown = (id) => {
+    var position = widgetList.findIndex(widget => widget.props.id === id);
+    if (position + 1 === widgetList.length)
+      return
+    var newList = widgetList;
+    console.log(newList);
+    var tmp = newList[position + 1];
+    newList[position + 1] = newList[position];
+    newList[position] = tmp
+    setWidgetList(newList);
+  }
+
   const deleteWidget = (nbr) => {
     setWidgetList(widgetList => widgetList.filter(widget => widget.props.id !== nbr));
   }
@@ -26,20 +50,20 @@ function App() {
     var widget = null;
     switch (widgetName) {
       case "Weather Report":
-          widget = <WeatherReport/>;
-          break;
+        widget = <WeatherReport />;
+        break;
       case "Youtube Statistics":
-          widget = <YoutubeStatistics/>;
-          break;
+        widget = <YoutubeStatistics />;
+        break;
       case "Reddit Statistics":
-          widget = <RedditStatistics/>;
-          break;
+        widget = <RedditStatistics />;
+        break;
       default:
-          break;
+        break;
     }
     setWidgetList(widgetList => ([
       ...widgetList,
-      <Widget key={widgetList.length} widgetContent ={widget} id={nextId} functionDelete={deleteWidget}/>
+      <Widget key={widgetList.length} id={nextId} functionDelete={deleteWidget} functionUp={moveWidgetUp} functionDown={moveWidgetDown} widgetContent={widget}/>
     ]));
     setNextId(nextId + 1);
     handleForm();
@@ -49,10 +73,10 @@ function App() {
     <div className="h-screen overflow-x-hidden">
       {
         showForm &&
-          <WidgetsAdder formHandler={handleForm} formSubmit={formSubmit}/>
+        <WidgetsAdder formHandler={handleForm} formSubmit={formSubmit} />
       }
       <Navbar />
-      <Body showForm={showForm} setShowForm={setShowForm} widgetList={widgetList}/>
+      <Body showForm={showForm} setShowForm={setShowForm} widgetList={widgetList} />
     </div>
   );
 }

@@ -32,10 +32,10 @@ export default function Auth(props) {
                         </div>
                     </form>
                     <div className="w-full">
-                    {errorMessage}
-                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-[5px] mt-10 mb-2">
-                        Submit
-                    </button>
+                        {errorMessage}
+                        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-[5px] mt-10 mb-2">
+                            Submit
+                        </button>
                     </div>
                     <p className="text-white w-full mb-4">________________________________________________</p>
                     <div className='w-5/12 bg-white hover:bg-gray-200 py-2 px-4 rounded-[5px] mt-2 mb-2 flex'>

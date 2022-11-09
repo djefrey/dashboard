@@ -1,7 +1,9 @@
 import { AiOutlineDelete } from 'react-icons/ai';
 import { useState } from 'react';
+import { AiOutlineArrowLeft } from 'react-icons/ai'
+import { AiOutlineArrowRight } from 'react-icons/ai'
 
-export default function Widget({ id, functionDelete, widgetContent }) {
+export default function Widget({ id, functionDelete, functionUp, functionDown, widgetContent }) {
   const [size, setSize] = useState(2);
   const handleSize = (event) => {
     if (size === 2)
@@ -16,7 +18,12 @@ export default function Widget({ id, functionDelete, widgetContent }) {
         ? 'h-80 bg-navbar rounded-[30px] mt-5 mr-5 ml-5 flex justify-center'
         : 'w-5/12 h-80 bg-navbar rounded-[30px] mt-5 ml-5 mr-5 flex justify-center'
     }>
-      <div className="w-11/12 flex-y text-xl">
+      <div className="w-1/12">
+        <button onClick={() => functionUp(id)}>
+          <AiOutlineArrowLeft className="text-white mt-40 ml-2" />
+        </button>
+      </div>
+      <div className="w-10/12 flex-y text-xl">
         <div className="flex justify-center text-center">
           <div className="w-full bg-navbar rounded-[30px] text-white ml-6 mr-6 pb-4 pt-2">
             {widgetContent}
@@ -30,6 +37,11 @@ export default function Widget({ id, functionDelete, widgetContent }) {
             <AiOutlineDelete className="fill-white" />
           </button>
         </div>
+      </div>
+      <div className="w-1/12">
+        <button onClick={() => functionUp(id)}>
+          <AiOutlineArrowRight className="text-white mt-40 mr-2" />
+        </button>
       </div>
     </div>
   );
