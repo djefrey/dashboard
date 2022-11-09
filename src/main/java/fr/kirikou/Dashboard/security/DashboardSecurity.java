@@ -1,4 +1,4 @@
-package fr.kirikou.Dashboard;
+package fr.kirikou.Dashboard.security;
 
 import fr.kirikou.Dashboard.repository.UserRepository;
 import fr.kirikou.Dashboard.service.DashboardOAuth2UserService;
@@ -6,14 +6,21 @@ import fr.kirikou.Dashboard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.endpoint.DefaultAuthorizationCodeTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AccessTokenResponseClient;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequest;
+import org.springframework.security.oauth2.client.endpoint.OAuth2AuthorizationCodeGrantRequestEntityConverter;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequestEntityConverter;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
@@ -51,6 +58,9 @@ public class DashboardSecurity {
                 .and()
                     .oauth2Login()
                     .defaultSuccessUrl("/index.html")
+                    .tokenEndpoint()
+                        .accessTokenResponseClient(accessTokenRequestClient())
+                    .and()
                     .userInfoEndpoint()
                         .userService(oauth2UserService());
 
@@ -64,7 +74,29 @@ public class DashboardSecurity {
         return authProvider;
     }
 
-    public OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() {
+
+    private OAuth2AccessTokenResponseClient<OAuth2AuthorizationCodeGrantRequest> accessTokenRequestClient() {
+        DefaultAuthorizationCodeTokenResponseClient client = new DefaultAuthorizationCodeTokenResponseClient();
+
+        client.setRequestEntityConverter(new OAuth2AuthorizationCodeGrantRequestEntityConverter() {
+            @Override
+            public RequestEntity<?> convert(OAuth2AuthorizationCodeGrantRequest request) {
+                return setUserAgent(super.convert(request));
+            }
+        });
+
+        return client;
+    }
+
+    private OAuth2UserService<OAuth2UserRequest, OAuth2User> oauth2UserService() {
         return new DashboardOAuth2UserService(userService);
+    }
+
+    public static RequestEntity<?> setUserAgent(RequestEntity<?> request) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.putAll(request.getHeaders());
+        headers.set(HttpHeaders.USER_AGENT, "Dashboard by Kirikou Corp.");
+
+        return new RequestEntity<>(request.getBody(), headers, request.getMethod(), request.getUrl());
     }
 }

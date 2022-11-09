@@ -14,4 +14,9 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     @Query("SELECT u FROM User u WHERE u.email = ?1")
     Optional<User> getUserByEmail(String email);
+    @Query("SELECT u FROM User u WHERE u.googleMail = ?1")
+    Optional<User> getUserByGoogleMail(String email);
+
+    @Query("SELECT u FROM User u WHERE u.redditName = ?1")
+    Optional<User> getUserByRedditName(String name);
 }

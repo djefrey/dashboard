@@ -1,13 +1,16 @@
 package fr.kirikou.Dashboard.service;
 
+import fr.kirikou.Dashboard.security.OauthService;
 import fr.kirikou.Dashboard.dto.UserRegisterDTO;
 import fr.kirikou.Dashboard.model.User;
 import fr.kirikou.Dashboard.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,15 +43,15 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User createUserFromOAuth(String name, String email) throws Exception {
-        if (isEmailUsed(email)) {
-            throw new Exception("email used - to change !!!!!!!");
+    public User createUserFromOAuth(OauthService service, String identifier) throws Exception {
+        if (isOauthIdentifierUsed(service, identifier)) {
+            throw new Exception("identifier used - to change !!!!!!!");
         }
 
         User user = new User();
-        user.setName(name);
-        user.setEmail(email);
+        user.setName(identifier);
         user.setPassword(null);
+        setUserOauthIdentifier(service, user, identifier);
 
         return userRepository.save(user);
     }
@@ -63,6 +66,44 @@ public class UserService {
 
     public Optional<User> getUserByEmail(String email) {
         return userRepository.getUserByEmail(email);
+    }
+
+    public Optional<User> getUserByOauthIdentifier(OauthService service, String identifier) {
+        switch (service) {
+            case GOOGLE: return userRepository.getUserByGoogleMail(identifier);
+            case REDDIT: return userRepository.getUserByRedditName(identifier);
+            default: return Optional.empty();
+        }
+    }
+
+    public void setUserOauthIdentifier(OauthService service, User user, String identifier) {
+        switch (service) {
+            case GOOGLE -> user.setGoogleMail(identifier);
+            case REDDIT -> user.setRedditName(identifier);
+        }
+        userRepository.save(user);
+    }
+
+    public void setUserOauthToken(OauthService service, User user, OAuth2AccessToken token) {
+        switch (service) {
+            case GOOGLE: {
+                user.setGoogleToken(token.getTokenValue());
+                user.setGoogleTokenExpires(Date.from(token.getExpiresAt()));
+            }
+            case REDDIT: {
+                user.setRedditToken(token.getTokenValue());
+                user.setRedditTokenExpires(Date.from(token.getExpiresAt()));
+            }
+        }
+        userRepository.save(user);
+    }
+
+    public boolean isOauthIdentifierUsed(OauthService service, String identifier) {
+        switch (service) {
+            case GOOGLE: return userRepository.getUserByGoogleMail(identifier).isPresent();
+            case REDDIT: return userRepository.getUserByRedditName(identifier).isPresent();
+            default: return false;
+        }
     }
 
     public List<User> getUsers() {

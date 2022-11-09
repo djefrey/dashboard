@@ -27,7 +27,7 @@ public class DashboardUserDetailsService implements UserDetailsService {
         return new DashboardUserDetails(user.get());
     }
 
-    public class DashboardUserDetails implements UserDetails {
+    public class DashboardUserDetails implements UserDetails, DashboardUserLogin {
         private User user;
 
         public DashboardUserDetails(User user) {
@@ -43,7 +43,7 @@ public class DashboardUserDetailsService implements UserDetailsService {
 
         @Override
         public String getUsername() {
-            return user.getEmail();
+            return user.getName();
         }
 
         @Override

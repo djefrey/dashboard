@@ -1,23 +1,25 @@
 package fr.kirikou.Dashboard.service;
 
+import fr.kirikou.Dashboard.DashboardUtils;
+import fr.kirikou.Dashboard.security.DashboardSecurity;
+import fr.kirikou.Dashboard.security.OauthService;
 import fr.kirikou.Dashboard.model.User;
-import fr.kirikou.Dashboard.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequestEntityConverter;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -25,12 +27,18 @@ import java.util.Optional;
 public class DashboardOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private UserService userService;
 
-    private Converter<OAuth2UserRequest, RequestEntity<?>> requestEntityConverter = new OAuth2UserRequestEntityConverter();
+    private Converter<OAuth2UserRequest, RequestEntity<?>> requestEntityConverter;
     private RestOperations restOperations = new RestTemplate();
     private static final ParameterizedTypeReference<Map<String, Object>> PARAMETERIZED_RESPONSE_TYPE = new ParameterizedTypeReference<Map<String, Object>>() {};
 
     public DashboardOAuth2UserService(UserService userService) {
         this.userService = userService;
+        this.requestEntityConverter = new OAuth2UserRequestEntityConverter() {
+            @Override
+            public RequestEntity<?> convert(OAuth2UserRequest userRequest) {
+                return DashboardSecurity.setUserAgent(super.convert(userRequest));
+            }
+        };
     }
 
     @Override
@@ -39,18 +47,27 @@ public class DashboardOAuth2UserService implements OAuth2UserService<OAuth2UserR
         ResponseEntity<Map<String, Object>> response = this.restOperations.exchange(request, PARAMETERIZED_RESPONSE_TYPE);
         Map<String, Object> attributes = response.getBody();
 
-        String name = (String) attributes.get("name");
-        String email = (String) attributes.get("email");
-        Optional<User> user = userService.getUserByEmail(email);
+        OauthService service = OauthService.getFromRegistrationId(userRequest.getClientRegistration().getRegistrationId());
+        String identifier = (String) attributes.get(service.getIdentifier());
+        Optional<User> user = userService.getUserByOauthIdentifier(service, identifier);
 
         if (user.isPresent()) {
-            System.out.println("Reuse user " + user.get().getId());
+            userService.setUserOauthToken(service, user.get(), userRequest.getAccessToken());
             return new DashboardOAuth2User(user.get(), attributes);
         } else {
-            try {
-                User newUser = userService.createUserFromOAuth(name, email);
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-                System.out.println("Create new user ! " + newUser.getId());
+            if (auth != null) {
+                User authUser = ((DashboardUserLogin) auth.getPrincipal()).getUser();
+
+                userService.setUserOauthIdentifier(service, authUser, identifier);
+                userService.setUserOauthToken(service, authUser, userRequest.getAccessToken());
+                return new DashboardOAuth2User(authUser, attributes);
+            }
+
+            try {
+                User newUser = userService.createUserFromOAuth(service, identifier);
+                userService.setUserOauthToken(service, newUser, userRequest.getAccessToken());
                 return new DashboardOAuth2User(newUser, attributes);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -58,7 +75,7 @@ public class DashboardOAuth2UserService implements OAuth2UserService<OAuth2UserR
         }
     }
 
-    public class DashboardOAuth2User implements OAuth2User
+    public class DashboardOAuth2User implements OAuth2User, DashboardUserLogin
     {
         private User user;
         private Map<String, Object> attributes;
@@ -85,7 +102,7 @@ public class DashboardOAuth2UserService implements OAuth2UserService<OAuth2UserR
 
         @Override
         public String getName() {
-            return user.getEmail();
+            return user.getName();
         }
     }
 }
