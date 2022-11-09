@@ -34,6 +34,7 @@ public class DashboardSecurity {
         http.csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers(HttpMethod.GET, "/*.html", "/static/**", "/*.js", "/*.json", "/*.ico").permitAll()
+                .antMatchers(HttpMethod.POST, "/register").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .anyRequest().denyAll()
 

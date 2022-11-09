@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -20,11 +20,6 @@ public class UserController {
     @GetMapping("/")
     public List<UserDTO> getUsers() {
         return userService.getUsers().stream().map(User::toDTO).toList();
-    }
-
-    @PostMapping("/register")
-    public UserDTO registerNewAccount(@RequestBody UserRegisterDTO data) throws Exception {
-        return userService.createUser(data).toDTO();
     }
 
     @GetMapping("/{id}")
