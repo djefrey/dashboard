@@ -1,5 +1,3 @@
-import Widget from './Widget.jsx'
-
 export default function Body({ showForm, setShowForm, widgetList}) {
     const onAddBtnShowForm = event => {
         setShowForm(!showForm);
