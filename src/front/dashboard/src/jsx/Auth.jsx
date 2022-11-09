@@ -15,7 +15,7 @@ export default function Auth(props) {
     }
 
     return (
-        <div className="h-screen overflow-hidden">
+        <div className="h-max overflow-hidden">
             <Navbar />
             <div className="w-full h-full bg-body flex">
                 <div className="w-5/12 bg-navbar m-auto mt-10 rounded-[30px] flex flex-wrap justify-center text-center pb-6">
