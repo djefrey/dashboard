@@ -1,16 +1,33 @@
 import WeatherReport from './WeatherReport'
+import YoutubeStatistics from './YoutubeStatistics'
+import RedditStatistics from './RedditStatistics';
 import Dropdown from 'react-dropdown';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 export default function WidgetsAdder({formHandler}) {
-    const [currentWidget, setCurrentWidget] = useState("");
+    const [currentWidget, setCurrentWidget] = useState("Wheather Report");
+    const [display, setDisplay] = useState(<WeatherReport/>);
     const handleChange = event => {
-        setCurrentWidget(event.target.data);
-        console.log(currentWidget);
+        setCurrentWidget(event.value);
     }
 
+    useEffect(() => {
+        switch (currentWidget) {
+            case "Weather Report":
+                setDisplay(<WeatherReport/>);
+                break;
+            case "Youtube Statistics":
+                setDisplay(<YoutubeStatistics/>);
+                break;
+            case "Reddit Statistics":
+                setDisplay(<RedditStatistics/>);
+                break;
+        }
+    }, [currentWidget])
+
     const options = [
-        'Wheater Report', 'Youtube Statistics', 'Reddit '
+        'Weather Report', 'Youtube Statistics', 'Reddit Statistics'
     ];
     const defaultOption = options[0];
 
@@ -24,9 +41,9 @@ export default function WidgetsAdder({formHandler}) {
                 <div className="w-full m-auto mt-2">
                     <p className="text-gray-500 font-semibold mt-3">Choose one widget</p>
                     <div className="flex justify-center mb-6 mt-3">
-                        <Dropdown className="w-2/6" options={options} onChange={() => handleChange()} value={defaultOption} placeholder="Select an option" />
+                        <Dropdown className="w-2/6" options={options} onChange={handleChange} value={defaultOption} placeholder="Select an option" />
                     </div>
-                    <WeatherReport />
+                    {display}
                     <button type="button" onClick={() => formHandler()} className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-[5px] mt-10 mb-10">
                         Cancel
                     </button>
