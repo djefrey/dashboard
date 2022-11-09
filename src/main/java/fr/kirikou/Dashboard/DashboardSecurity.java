@@ -1,4 +1,4 @@
-package fr.kirikou.Dashboard.security;
+package fr.kirikou.Dashboard;
 
 import fr.kirikou.Dashboard.repository.UserRepository;
 import fr.kirikou.Dashboard.service.DashboardOAuth2UserService;

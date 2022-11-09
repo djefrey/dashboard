@@ -1,8 +1,7 @@
 package fr.kirikou.Dashboard.service;
 
-import fr.kirikou.Dashboard.DashboardUtils;
-import fr.kirikou.Dashboard.security.DashboardSecurity;
-import fr.kirikou.Dashboard.security.OauthService;
+import fr.kirikou.Dashboard.DashboardSecurity;
+import fr.kirikou.Dashboard.OauthService;
 import fr.kirikou.Dashboard.model.User;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.convert.converter.Converter;
@@ -19,7 +18,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
-import java.security.Principal;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;

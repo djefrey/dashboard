@@ -1,6 +1,6 @@
 package fr.kirikou.Dashboard.service;
 
-import fr.kirikou.Dashboard.security.OauthService;
+import fr.kirikou.Dashboard.OauthService;
 import fr.kirikou.Dashboard.dto.UserRegisterDTO;
 import fr.kirikou.Dashboard.model.User;
 import fr.kirikou.Dashboard.repository.UserRepository;

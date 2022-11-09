@@ -1,4 +1,4 @@
-package fr.kirikou.Dashboard.security;
+package fr.kirikou.Dashboard;
 
 import lombok.Getter;
 
