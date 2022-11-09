@@ -1,9 +1,11 @@
 import Navbar from './Navbar'
 import Body from './Body'
 import WidgetsAdder from './Widgets/WidgetsAdder'
-import Widget from './Widget'
+import Widget from './Widgets/Widget'
+import WeatherReport from './Widgets/WeatherReport'
+import YoutubeStatistics from './/Widgets/YoutubeStatistics'
+import RedditStatistics from './/Widgets/RedditStatistics';
 import { useState } from 'react';
-import { useRef } from 'react';
 import 'react-dropdown/style.css';
 
 function App() {
@@ -11,7 +13,6 @@ function App() {
 
   const [widgetList, setWidgetList] = useState([]);
   const [nextId, setNextId] = useState(0);
-  const widgetName = useRef(null);
 
   const handleForm = event => {
     setShowForm(!showForm);
@@ -21,21 +22,34 @@ function App() {
     setWidgetList(widgetList => widgetList.filter(widget => widget.props.id !== nbr));
   }
 
-  const formSubmit = event => {
-    event.preventDefault();
+  const formSubmit = (widgetName) => {
+    var widget = null;
+    switch (widgetName) {
+      case "Weather Report":
+          widget = <WeatherReport/>;
+          break;
+      case "Youtube Statistics":
+          widget = <YoutubeStatistics/>;
+          break;
+      case "Reddit Statistics":
+          widget = <RedditStatistics/>;
+          break;
+      default:
+          break;
+    }
     setWidgetList(widgetList => ([
       ...widgetList,
-      <Widget key={widgetList.length} name={widgetName.current.value} id={nextId} functionDelete={deleteWidget}/>
+      <Widget key={widgetList.length} widgetContent ={widget} id={nextId} functionDelete={deleteWidget}/>
     ]));
     setNextId(nextId + 1);
     handleForm();
   }
 
   return (
-    <div className="h-screen overflow-hidden">
+    <div className="h-screen overflow-x-hidden">
       {
         showForm &&
-          <WidgetsAdder formHandler={handleForm}/>
+          <WidgetsAdder formHandler={handleForm} formSubmit={formSubmit}/>
       }
       <Navbar />
       <Body showForm={showForm} setShowForm={setShowForm} widgetList={widgetList}/>
