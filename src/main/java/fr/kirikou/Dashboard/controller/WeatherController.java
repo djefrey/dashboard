@@ -1,5 +1,8 @@
 package fr.kirikou.Dashboard.controller;
 
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.gson.Gson;
+import fr.kirikou.Dashboard.dto.CityLocationDTO;
 import net.minidev.json.JSONArray;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
@@ -56,23 +59,14 @@ public class WeatherController {
             if (arr.size() > 0) {
                 JSONObject cityData = (JSONObject) arr.get(0);
 
-                double lat = (double) cityData.get("lat");
-                double lon = (double) cityData.get("lon");
-                String cityName = (String) cityData.get("name");
-                String countryCode = (String) cityData.get("country");
-                Optional<String> stateCode = cityData.containsKey("state")
-                        ? Optional.of((String) cityData.get("state"))
-                        : Optional.empty();
+                CityLocationDTO locData = new CityLocationDTO();
+                locData.setLat((double) cityData.get("lat"));
+                locData.setLon((double) cityData.get("lon"));
+                locData.setCity((String) cityData.get("name"));
+                locData.setState((String) cityData.get("state"));
+                locData.setCountry((String) cityData.get("country"));
 
-                String result = "{" +
-                        String.format(Locale.US,"\"lat\": %f", lat) +
-                        String.format(Locale.US, ", \"lon\": %f", lon) +
-                        ", \"city\":  \"" + cityName + "\"" +
-                        ", \"country\":  \"" + countryCode + "\"" +
-                        (stateCode.isPresent() ? (", \"state\": \"" + stateCode.get() + "\"") : "") +
-                "}";
-
-                return result;
+                return new Gson().toJson(locData);
             } else {
                 return "{\"error\": \"Unknown city\"}";
             }
