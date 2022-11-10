@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-
 export default function Body({ showForm, setShowForm, widgetList}) {
     const onAddBtnShowForm = event => {
         setShowForm(!showForm);
