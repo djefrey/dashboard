@@ -50,7 +50,7 @@ function App() {
     var widget = null;
     switch (widgetName) {
       case "Weather Report":
-        widget = <WeatherReport />;
+        widget = <WeatherReport preview={false} />;
         break;
       case "Youtube Statistics":
         widget = <YoutubeStatistics />;

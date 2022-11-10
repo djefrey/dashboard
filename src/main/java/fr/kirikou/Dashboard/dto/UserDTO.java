@@ -11,4 +11,6 @@ public class UserDTO {
     private String name;
     private String email;
     private Date register;
+    private boolean hasGoogleAccount;
+    private boolean hasRedditAccount;
 }

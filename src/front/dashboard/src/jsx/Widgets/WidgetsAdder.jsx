@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 
 export default function WidgetsAdder({ formHandler, formSubmit }) {
     const [currentWidget, setCurrentWidget] = useState("Weather Report");
-    const [display, setDisplay] = useState(<Widget widgetContent={<WeatherReport />} />);
+    const [display, setDisplay] = useState(<Widget widgetContent={<WeatherReport preview={true} />} />);
     const handleChange = event => {
         setCurrentWidget(event.value);
     }
@@ -16,13 +16,13 @@ export default function WidgetsAdder({ formHandler, formSubmit }) {
     useEffect(() => {
         switch (currentWidget) {
             case "Weather Report":
-                setDisplay(<Widget widgetContent={<WeatherReport />} />);
+                setDisplay(<Widget widgetContent={<WeatherReport preview={true} />} />);
                 break;
             case "Youtube Statistics":
-                setDisplay(<Widget widgetContent={<YoutubeStatistics />} />);
+                setDisplay(<Widget widgetContent={<YoutubeStatistics preview={true} />} />);
                 break;
             case "Reddit Statistics":
-                setDisplay(<Widget widgetContent={<RedditStatistics />} />);
+                setDisplay(<Widget widgetContent={<RedditStatistics preview={true} />} />);
                 break;
             default:
                 break;

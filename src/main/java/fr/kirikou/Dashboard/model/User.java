@@ -34,6 +34,8 @@ public class User {
         data.setName(name);
         data.setEmail(email);
         data.setRegister(registerDate);
+        data.setHasGoogleAccount(this.googleMail != null);
+        data.setHasRedditAccount(this.redditName != null);
         return data;
     }
 }
