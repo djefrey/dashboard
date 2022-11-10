@@ -9,7 +9,7 @@ import PollutionReport from './PollutionReport';
 
 export default function WidgetsAdder({ formHandler, formSubmit }) {
     const [currentWidget, setCurrentWidget] = useState("Weather Report");
-    const [display, setDisplay] = useState(<Widget widgetContent={<WeatherReport preview={true} />} />);
+    const [display, setDisplay] = useState(<Widget widgetContent={<WeatherReport preview={true} />} noResize={true} />);
     const handleChange = event => {
         setCurrentWidget(event.value);
     }
@@ -17,16 +17,16 @@ export default function WidgetsAdder({ formHandler, formSubmit }) {
     useEffect(() => {
         switch (currentWidget) {
             case "Weather Report":
-                setDisplay(<Widget widgetContent={<WeatherReport preview={true} />} />);
+                setDisplay(<Widget widgetContent={<WeatherReport preview={true} />} noResize={true} />);
                 break;
             case "Pollution Report":
-                setDisplay(<Widget widgetContent={<PollutionReport preview={true} />} />);
+                setDisplay(<Widget widgetContent={<PollutionReport preview={true} />} noResize={true} />);
                 break;
             case "Youtube Statistics":
-                setDisplay(<Widget widgetContent={<YoutubeStatistics preview={true} />} />);
+                setDisplay(<Widget widgetContent={<YoutubeStatistics preview={true} />} noResize={true} />);
                 break;
             case "Reddit Statistics":
-                setDisplay(<Widget widgetContent={<RedditStatistics preview={true} />} />);
+                setDisplay(<Widget widgetContent={<RedditStatistics preview={true} />} noResize={true} />);
                 break;
             default:
                 break;

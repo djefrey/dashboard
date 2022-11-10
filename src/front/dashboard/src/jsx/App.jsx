@@ -19,28 +19,30 @@ function App() {
     setShowForm(!showForm);
   }
 
-  const moveWidgetUp = (id) => {
-    var position = widgetList.findIndex(widget => widget.props.id === id);
-    if (position - 1 === -1)
-    return
-    var newList = widgetList;
-    console.log(newList);
-    var tmp = newList[position - 1];
-    newList[position - 1] = newList[position];
-    newList[position] = tmp
-    setWidgetList(newList);
+  const moveWidgetUp = (toFind) => {
+    setWidgetList(widgetList => {
+      var position = widgetList.findIndex(widget => { return widget.props.id === toFind });
+      if (position === 0)
+        return widgetList
+      var newList = [...widgetList];
+      var tmp = newList[position - 1];
+      newList[position - 1] = newList[position];
+      newList[position] = tmp
+      return newList;
+    });
   }
 
-  const moveWidgetDown = (id) => {
-    var position = widgetList.findIndex(widget => widget.props.id === id);
-    if (position + 1 === widgetList.length)
-      return
-    var newList = widgetList;
-    console.log(newList);
-    var tmp = newList[position + 1];
-    newList[position + 1] = newList[position];
-    newList[position] = tmp
-    setWidgetList(newList);
+  const moveWidgetDown = (toFind) => {
+    setWidgetList(widgetList => {
+      var position = widgetList.findIndex(widget => { return widget.props.id === toFind });
+      if (position >= widgetList.length - 1)
+        return widgetList
+      var newList = [...widgetList];
+      var tmp = newList[position + 1];
+      newList[position + 1] = newList[position];
+      newList[position] = tmp
+      return newList;
+    });
   }
 
   const deleteWidget = (nbr) => {
@@ -67,7 +69,7 @@ function App() {
     }
     setWidgetList(widgetList => ([
       ...widgetList,
-      <Widget key={widgetList.length} id={nextId} functionDelete={deleteWidget} functionUp={moveWidgetUp} functionDown={moveWidgetDown} widgetContent={widget}/>
+      <Widget key={widgetList.length} id={nextId} functionDelete={deleteWidget} functionUp={moveWidgetUp} functionDown={moveWidgetDown} widgetContent={widget} />
     ]));
     setNextId(nextId + 1);
     handleForm();

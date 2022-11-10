@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { AiOutlineArrowLeft } from 'react-icons/ai'
 import { AiOutlineArrowRight } from 'react-icons/ai'
 
-export default function Widget({ id, functionDelete, functionUp, functionDown, widgetContent }) {
+export default function Widget({ id, functionDelete, functionUp, functionDown, widgetContent, noResize }) {
   const [size, setSize] = useState(2);
   const handleSize = (event) => {
     if (size === 2)
@@ -15,8 +15,8 @@ export default function Widget({ id, functionDelete, functionUp, functionDown, w
   return (
     <div className={
       size === 2
-        ? 'h-80 bg-navbar rounded-[30px] mt-5 mr-5 ml-5 flex justify-center'
-        : 'w-5/12 h-80 bg-navbar rounded-[30px] mt-5 ml-5 mr-5 flex justify-center'
+        ? 'h-80 bg-navbar rounded-[30px] mt-5 mr-1 ml-2 flex justify-center'
+        : 'w-5/12 h-80 bg-navbar rounded-[30px] mt-5 ml-10 mr-10 flex justify-center'
     }>
       <div className="w-1/12">
         <button onClick={() => functionUp(id)}>
@@ -30,7 +30,7 @@ export default function Widget({ id, functionDelete, functionUp, functionDown, w
           </div>
         </div>
         <div className="w-full mb-6 justify-around flex">
-          <button onClick={() => handleSize()} className="text-white border-2">
+          <button disabled={noResize} onClick={() => handleSize()} className="text-white border-2">
             click to resize
           </button>
           <button onClick={() => functionDelete(id)} className="h-min bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full">
@@ -39,8 +39,8 @@ export default function Widget({ id, functionDelete, functionUp, functionDown, w
         </div>
       </div>
       <div className="w-1/12">
-        <button onClick={() => functionUp(id)}>
-          <AiOutlineArrowRight className="text-white mt-40 mr-2" />
+        <button onClick={() => functionDown(id)}>
+          <AiOutlineArrowRight className="text-white mt-40 -ml-2" />
         </button>
       </div>
     </div>

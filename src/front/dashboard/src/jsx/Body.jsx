@@ -1,13 +1,14 @@
+import { useEffect } from 'react'
+
 export default function Body({ showForm, setShowForm, widgetList}) {
     const onAddBtnShowForm = event => {
         setShowForm(!showForm);
-        console.log(showForm);
     }
 
     return(
         <div className="w-screen h-full flex justify-center">
             <div className="w-10/12 h-full bg-body">
-                <div className="w-full h-full flex flex-wrap overflow-y-auto ml-8">
+                <div className="w-full h-full flex flex-wrap overflow-y-auto">
                     {widgetList}
                 </div>
             </div>
