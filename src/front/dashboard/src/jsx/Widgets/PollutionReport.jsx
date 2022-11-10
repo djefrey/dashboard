@@ -1,11 +1,18 @@
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 
-export default function WeatherReport(props) {
+export default function PollutionReport(props) {
     let [city, setCity] = useState({input: "", name: ""});
     let [coords, setCoords] = useState({lat: 0, lon: 0})
-    let [weather, setWeather] = useState({icon: '01d', description: 'clear sky', temperature: '25'})
+    let [pollution, setPollution] = useState({index: "?", textColor: "#FFFFFF"})
     let cityInputRef = useRef(null);
+
+    const pollutionColor = new Map();
+    pollutionColor.set(1, "#27e546");
+    pollutionColor.set(2, "#27e59a");
+    pollutionColor.set(3, "#dae527");
+    pollutionColor.set(4, "#e5a527");
+    pollutionColor.set(5, "#e52727");
 
     useEffect(() => {
         const inteval = setInterval(() => {
@@ -15,18 +22,17 @@ export default function WeatherReport(props) {
             let newCity = cityInputRef.current.value;
 
             let updateWeather = (lat, lon) => {
-                fetch("/api/weather/current?lat=" + lat + "&lon=" + lon).then(response => {
+                fetch("/api/weather/pollution?lat=" + lat + "&lon=" + lon).then(response => {
                     response.json().then(data => {
                         if ("error" in data)
                             return;
 
-                        let weather = data.weather[0];
+                        let pollution = data.list[0];
 
-                        setWeather({
-                            icon: weather.icon,
-                            description: weather.descritpion,
-                            temperature: data.main.temp,
-                        })
+                        setPollution({
+                            index: "" + pollution.main.aqi,
+                            textColor: pollutionColor.get(pollution.main.aqi),
+                        });
                     });
                 })
             };
@@ -38,16 +44,17 @@ export default function WeatherReport(props) {
                         name: "",
                     });
 
-                    setWeather({
-                        icon: '01d',
-                        description: 'clear sky',
-                        temperature: '25',
+                    setPollution({
+                        index: "?",
+                        textColor: "#FFFFFF",
                     });
                     return;
                 }
 
                 fetch("/api/weather/geolocation?city=" + newCity).then(response => {
                     response.json().then(data => {
+                        console.log(data);
+
                         if ("error" in data)
                             return;
 
@@ -72,13 +79,7 @@ export default function WeatherReport(props) {
         <div>
             <p className="font-semibold text-xl mb-3">Weather report</p>
             <input ref={cityInputRef} className="bg-body rounded-[4px] pl-2 ml-2 h-8" disabled={props.preview === true} placeholder="Choose a city" type="text"></input>
-            <div className="flex justify-center -mb-4 -mt-2">
-                <img src={"http://openweathermap.org/img/wn/" + weather.icon + "@2x.png"} alt=""></img>
-            </div>
-            <span className="font-bold text-gray-400">
-                {weather.description}
-            </span>
-            <p className="text-6xl font-semibold mt-2">{weather.temperature}°C</p>
+            <p className="text-6xl font-semibold mt-2" style={{color: pollution.textColor }}>{pollution.index} / 5</p>
             <span className="font-bold text-gray-400">
                 {city.name}
             </span>

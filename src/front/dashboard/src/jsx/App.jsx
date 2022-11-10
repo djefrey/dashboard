@@ -7,6 +7,7 @@ import YoutubeStatistics from './/Widgets/YoutubeStatistics'
 import RedditStatistics from './/Widgets/RedditStatistics';
 import { useState } from 'react';
 import 'react-dropdown/style.css';
+import PollutionReport from './Widgets/PollutionReport'
 
 function App() {
   const [showForm, setShowForm] = useState(false);
@@ -52,11 +53,14 @@ function App() {
       case "Weather Report":
         widget = <WeatherReport preview={false} />;
         break;
+      case "Pollution Report":
+        widget = <PollutionReport preview={false} />;
+        break;
       case "Youtube Statistics":
-        widget = <YoutubeStatistics />;
+        widget = <YoutubeStatistics preview={false} />;
         break;
       case "Reddit Statistics":
-        widget = <RedditStatistics />;
+        widget = <RedditStatistics preview={false} />;
         break;
       default:
         break;

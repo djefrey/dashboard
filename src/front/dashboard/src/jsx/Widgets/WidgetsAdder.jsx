@@ -5,6 +5,7 @@ import Widget from './Widget'
 import Dropdown from 'react-dropdown';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import PollutionReport from './PollutionReport';
 
 export default function WidgetsAdder({ formHandler, formSubmit }) {
     const [currentWidget, setCurrentWidget] = useState("Weather Report");
@@ -18,6 +19,9 @@ export default function WidgetsAdder({ formHandler, formSubmit }) {
             case "Weather Report":
                 setDisplay(<Widget widgetContent={<WeatherReport preview={true} />} />);
                 break;
+            case "Pollution Report":
+                setDisplay(<Widget widgetContent={<PollutionReport preview={true} />} />);
+                break;
             case "Youtube Statistics":
                 setDisplay(<Widget widgetContent={<YoutubeStatistics preview={true} />} />);
                 break;
@@ -30,7 +34,7 @@ export default function WidgetsAdder({ formHandler, formSubmit }) {
     }, [currentWidget])
 
     const options = [
-        'Weather Report', 'Youtube Statistics', 'Reddit Statistics'
+        'Weather Report', 'Pollution Report', 'Youtube Statistics', 'Reddit Statistics'
     ];
     const defaultOption = options[0];
     return (
