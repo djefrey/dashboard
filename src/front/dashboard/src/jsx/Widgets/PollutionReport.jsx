@@ -77,7 +77,7 @@ export default function PollutionReport(props) {
 
     return (
         <div>
-            <p className="font-semibold text-xl mb-3">Weather report</p>
+            <p className="font-semibold text-xl mb-3">Pollution Report</p>
             <input ref={cityInputRef} className="bg-body rounded-[4px] pl-2 ml-2 h-8" disabled={props.preview === true} placeholder="Choose a city" type="text"></input>
             <p className="text-6xl font-semibold mt-2" style={{color: pollution.textColor }}>{pollution.index} / 5</p>
             <span className="font-bold text-gray-400">

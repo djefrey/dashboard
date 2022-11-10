@@ -20,6 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build-dev": "dotenv -e .env.developementreact-scripts build-dev",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

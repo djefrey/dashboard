@@ -4,16 +4,20 @@ import WidgetsAdder from './Widgets/WidgetsAdder'
 import Widget from './Widgets/Widget'
 import WeatherReport from './Widgets/WeatherReport'
 import YoutubeStatistics from './/Widgets/YoutubeStatistics'
-import RedditStatistics from './/Widgets/RedditStatistics';
+import RedditStatistics from './Widgets/RedditKarma';
 import { useState } from 'react';
 import 'react-dropdown/style.css';
 import PollutionReport from './Widgets/PollutionReport'
+import { useEffect } from 'react'
 
 function App() {
   const [showForm, setShowForm] = useState(false);
 
   const [widgetList, setWidgetList] = useState([]);
   const [nextId, setNextId] = useState(0);
+
+  const [userInfos, setUserInfos] = useState(null);
+  const [widgetSelection, setWidgetSelection] = useState([]);
 
   const handleForm = event => {
     setShowForm(!showForm);
@@ -75,14 +79,32 @@ function App() {
     handleForm();
   }
 
+  useEffect(() => {
+    fetch("/api/user/me").then(response => {
+      response.json().then(data => {
+        let widgetSelection = [
+          'Weather Report', 'Pollution Report',
+        ];
+
+        if (data.hasRedditAccount) {
+          widgetSelection.push('Reddit Karma');
+          widgetSelection.push('Reddit Top Post');
+        }
+
+        setUserInfos(data);
+        setWidgetSelection(widgetSelection);
+      }).catch(() => {});
+    }).catch(() => {});
+  }, []);
+
   return (
     <div className="h-screen overflow-x-hidden">
       {
         showForm &&
-        <WidgetsAdder formHandler={handleForm} formSubmit={formSubmit} />
+        <WidgetsAdder formHandler={handleForm} formSubmit={formSubmit} widgetSelection={widgetSelection} />
       }
-      <Navbar />
-      <Body showForm={showForm} setShowForm={setShowForm} widgetList={widgetList} />
+      <Navbar userInfos={userInfos} />
+      <Body userInfos={userInfos} showForm={showForm} setShowForm={setShowForm} widgetList={widgetList} />
     </div>
   );
 }

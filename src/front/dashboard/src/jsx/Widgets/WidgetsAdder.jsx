@@ -1,13 +1,13 @@
 import WeatherReport from './WeatherReport'
 import YoutubeStatistics from './YoutubeStatistics'
-import RedditStatistics from './RedditStatistics';
+import RedditStatistics from './RedditKarma';
 import Widget from './Widget'
 import Dropdown from 'react-dropdown';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import PollutionReport from './PollutionReport';
 
-export default function WidgetsAdder({ formHandler, formSubmit }) {
+export default function WidgetsAdder({ formHandler, formSubmit, widgetSelection }) {
     const [currentWidget, setCurrentWidget] = useState("Weather Report");
     const [display, setDisplay] = useState(<Widget widgetContent={<WeatherReport preview={true} />} noResize={true} />);
     const handleChange = event => {
@@ -33,10 +33,7 @@ export default function WidgetsAdder({ formHandler, formSubmit }) {
         }
     }, [currentWidget])
 
-    const options = [
-        'Weather Report', 'Pollution Report', 'Youtube Statistics', 'Reddit Statistics'
-    ];
-    const defaultOption = options[0];
+    const defaultOption = widgetSelection[0];
     return (
         <div className="absolute w-screen h-screen bg-black/50 z-10">
             <div className="w-5/6 h-5/6 bg-body rounded-[10px] text-center m-auto mt-6">
@@ -46,7 +43,7 @@ export default function WidgetsAdder({ formHandler, formSubmit }) {
                             <p className="text-2xl font-semibold text-white">Widget Creation Examples</p>
                             <p className="text-gray-500 font-semibold mt-3">Choose one widget</p>
                             <div className="flex justify-center mb-6 mt-3">
-                                <Dropdown className="w-3/6" options={options} onChange={handleChange} value={defaultOption} placeholder="Select an option" />
+                                <Dropdown className="w-3/6" options={widgetSelection} onChange={handleChange} value={defaultOption} placeholder="Select an option" />
                             </div>
                         </div>
                     </div>
