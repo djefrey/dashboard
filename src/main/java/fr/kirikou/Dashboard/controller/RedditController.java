@@ -40,21 +40,22 @@ public class RedditController {
     private static final String INTERNAL_ERROR_CODE = "{\"error\": \"Internal server error\"}";
 
     @GetMapping(value = "/karma", produces = "application/json")
-    public String getKarma(HttpServletResponse response) {
+    public String getKarma(@RequestParam String username, HttpServletResponse response) {
         User user = DashboardUtils.getActualUser();
         Optional<String> err;
 
         if ((err = verifyToken(user)).isPresent())
             return err.get();
 
-        String url = "https://oauth.reddit.com/api/v1/me/";
+        String url = "https://oauth.reddit.com/user/" + username + "/about.json";
         Optional<Object> data = fetchRedditWithOauth(url, user.getRedditToken(), response);
 
         if (data.isPresent()) {
             JSONObject obj = (JSONObject) data.get();
+            JSONObject karmaData = (JSONObject) obj.get("data");
             RedditKarmaDTO result = new RedditKarmaDTO();
-            result.setCommentKarma((double) obj.get("comment_karma"));
-            result.setTotalKarma((double) obj.get("total_karma"));
+            result.setCommentKarma((int) karmaData.get("comment_karma"));
+            result.setTotalKarma((int) karmaData.get("total_karma"));
             return new Gson().toJson(result);
         } else {
             return INTERNAL_ERROR_CODE;

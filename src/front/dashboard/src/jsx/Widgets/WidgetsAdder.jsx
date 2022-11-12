@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import PollutionReport from './PollutionReport';
 import RedditTop from './RedditTop';
+import RedditKarma from './RedditKarma';
 
 export default function WidgetsAdder({ formHandler, formSubmit, widgetSelection }) {
     const [currentWidget, setCurrentWidget] = useState("Weather Report");
@@ -20,6 +21,9 @@ export default function WidgetsAdder({ formHandler, formSubmit, widgetSelection 
                 break;
             case "Pollution Report":
                 setDisplay(<Widget widgetContent={<PollutionReport preview={true} />} noResize={true} />);
+                break;
+            case "Reddit Karma":
+                setDisplay(<Widget widgetContent={<RedditKarma preview={true} />} noResize={true} />);
                 break;
             case "Reddit Top Post":
                 setDisplay(<Widget widgetContent={<RedditTop preview={true} />} noResize={true} />);

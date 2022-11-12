@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class RedditKarmaDTO {
-    private double commentKarma;
-    private double totalKarma;
+    private int commentKarma;
+    private int totalKarma;
 }
