@@ -1,11 +1,10 @@
 import WeatherReport from './WeatherReport'
-import YoutubeStatistics from './YoutubeStatistics'
-import RedditStatistics from './RedditKarma';
 import Widget from './Widget'
 import Dropdown from 'react-dropdown';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import PollutionReport from './PollutionReport';
+import RedditTop from './RedditTop';
 
 export default function WidgetsAdder({ formHandler, formSubmit, widgetSelection }) {
     const [currentWidget, setCurrentWidget] = useState("Weather Report");
@@ -22,11 +21,8 @@ export default function WidgetsAdder({ formHandler, formSubmit, widgetSelection 
             case "Pollution Report":
                 setDisplay(<Widget widgetContent={<PollutionReport preview={true} />} noResize={true} />);
                 break;
-            case "Youtube Statistics":
-                setDisplay(<Widget widgetContent={<YoutubeStatistics preview={true} />} noResize={true} />);
-                break;
-            case "Reddit Statistics":
-                setDisplay(<Widget widgetContent={<RedditStatistics preview={true} />} noResize={true} />);
+            case "Reddit Top Post":
+                setDisplay(<Widget widgetContent={<RedditTop preview={true} />} noResize={true} />);
                 break;
             default:
                 break;

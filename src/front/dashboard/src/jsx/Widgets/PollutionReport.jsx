@@ -71,7 +71,7 @@ export default function PollutionReport(props) {
                     return;
                 updateWeather(coords.lat, coords.lon);
             }
-        }, 5000);
+        }, 1000);
         return () => clearInterval(inteval);
     }, [city, coords, props]);
 

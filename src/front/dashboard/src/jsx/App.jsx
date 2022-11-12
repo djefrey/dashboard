@@ -3,12 +3,11 @@ import Body from './Body'
 import WidgetsAdder from './Widgets/WidgetsAdder'
 import Widget from './Widgets/Widget'
 import WeatherReport from './Widgets/WeatherReport'
-import YoutubeStatistics from './/Widgets/YoutubeStatistics'
-import RedditStatistics from './Widgets/RedditKarma';
 import { useState } from 'react';
 import 'react-dropdown/style.css';
 import PollutionReport from './Widgets/PollutionReport'
 import { useEffect } from 'react'
+import RedditTop from './Widgets/RedditTop'
 
 function App() {
   const [showForm, setShowForm] = useState(false);
@@ -62,11 +61,8 @@ function App() {
       case "Pollution Report":
         widget = <PollutionReport preview={false} />;
         break;
-      case "Youtube Statistics":
-        widget = <YoutubeStatistics preview={false} />;
-        break;
-      case "Reddit Statistics":
-        widget = <RedditStatistics preview={false} />;
+      case "Reddit Top Post":
+        widget = <RedditTop preview={false} />;
         break;
       default:
         break;
@@ -87,7 +83,6 @@ function App() {
         ];
 
         if (data.hasRedditAccount) {
-          widgetSelection.push('Reddit Karma');
           widgetSelection.push('Reddit Top Post');
         }
 
