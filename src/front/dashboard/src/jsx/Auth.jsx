@@ -53,7 +53,7 @@ export default function Auth(props) {
                     </div>
                     <p className="text-white w-full mb-4">________________________________________________</p>
                     <Link to="/register.html" className='w-7/12 bg-blue-300 hover:bg-blue-400 py-2 px-4 rounded-[5px] mt-2 mb-2 flex'>
-                        <p className="font-bold text-gray-700 m-auto">Log In</p>
+                        <p className="font-bold text-gray-700 m-auto">Register</p>
                     </Link>
                 </div>
             </div>
