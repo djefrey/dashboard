@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import './index.css';
 import Auth from './jsx/Auth';
 import App from './jsx/App';
+import Account from './jsx/Account';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -13,6 +14,7 @@ root.render(
       <Route path="/" element={<Navigate to="/index.html" />} />
       <Route path='/index.html' element={<App />} />
       <Route path='/login.html' element={<Auth />} />
+      <Route path='/account.html' element={<Account />} />
     </Routes>
   </BrowserRouter>
 );

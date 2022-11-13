@@ -26,7 +26,9 @@ export default function Navbar({userInfos}) {
                 userInfos != null &&
 
                 <div className="w-full m-auto flex justify-end mr-20">
-                    <p className="text-gray-500 text-lg font-semibold">{userInfos.name}</p>
+                    <Link to="/account.html">
+                        <p className="text-gray-500 text-lg font-semibold">{userInfos.name}</p>
+                    </Link>
                 </div>
             }
         </div>

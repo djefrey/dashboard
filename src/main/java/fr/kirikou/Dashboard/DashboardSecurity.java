@@ -53,7 +53,8 @@ public class DashboardSecurity {
 
                 .and()
                     .logout()
-                    .logoutUrl("/logout.html")
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/index.html")
 
                 .and()
                     .oauth2Login()
