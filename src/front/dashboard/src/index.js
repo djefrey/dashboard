@@ -6,6 +6,7 @@ import Auth from './jsx/Auth';
 import App from './jsx/App';
 import Account from './jsx/Account';
 import reportWebVitals from './reportWebVitals';
+import Register from './jsx/Register';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,6 +14,7 @@ root.render(
     <Routes>
       <Route path="/" element={<Navigate to="/index.html" />} />
       <Route path='/index.html' element={<App />} />
+      <Route path='/register.html' element={<Register />} />
       <Route path='/login.html' element={<Auth />} />
       <Route path='/account.html' element={<Account />} />
     </Routes>

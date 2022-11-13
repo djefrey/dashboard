@@ -51,6 +51,10 @@ export default function Auth(props) {
                         <img src={redditLogo} alt="reddit_logo" className="ml-1 object-scale-down w-2/12" />
                         <a href="/oauth2/authorization/reddit" className="font-bold text-gray-700 m-auto">Log in with Reddit</a>
                     </div>
+                    <p className="text-white w-full mb-4">________________________________________________</p>
+                    <Link to="/register.html" className='w-7/12 bg-blue-300 hover:bg-blue-400 py-2 px-4 rounded-[5px] mt-2 mb-2 flex'>
+                        <p className="font-bold text-gray-700 m-auto">Log In</p>
+                    </Link>
                 </div>
             </div>
         </div>

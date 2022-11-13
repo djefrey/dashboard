@@ -42,6 +42,40 @@ export default function Account(props) {
                     {
                         userInfos != null &&
                         <>
+                            {
+                                userInfos.email == null &&
+                                <form method='post' action='/api/user/setmailpassword' className="w-4/6 text-white font-semibold">
+                                    <h3 className='font-bold text-3xl mt-8 mb-6'>Set Logins</h3>
+                                    <div className='form-group mt-3'>
+                                        <p className="text-start">Email</p>
+                                        <input type="email" name='username' className='w-full bg-body rounded-[4px] h-10 pl-2' placeholder='abc@xyz.com' />
+                                    </div>
+                                    <br />
+                                    <div className='form-group mt-3'>
+                                        <p className="text-start">Password</p>
+                                        <input type="password" name='password' className='w-full bg-body rounded-[4px] h-10 pl-2' />
+                                    </div>
+                                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-[5px] mt-10 mb-2">
+                                        Submit
+                                    </button>
+                                </form>
+                            }
+                            {
+                                userInfos.email != null &&
+                                <form method='post' action='/api/user/setpassword' className="w-4/6 text-white font-semibold">
+                                    <h3 className='font-bold text-3xl mt-8 mb-6'>Set Password</h3>
+                                    <div className='form-group mt-3'>
+                                        <p className="text-start">Password</p>
+                                        <input type="password" name='password' className='w-full bg-body rounded-[4px] h-10 pl-2' />
+                                    </div>
+                                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-[5px] mt-10 mb-2">
+                                        Submit
+                                    </button>
+                                </form>
+                            }
+
+                            <p className="text-white w-full mb-4">________________________________________________</p>
+
                             {insertAccountLink("Google", "/oauth2/authorization/google", googleLogo, "hasGoogleAccount")}
                             {insertAccountLink("Reddit", "/oauth2/authorization/reddit", redditLogo, "hasRedditAccount")}
 

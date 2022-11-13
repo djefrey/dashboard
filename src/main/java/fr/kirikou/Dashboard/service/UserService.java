@@ -2,6 +2,7 @@ package fr.kirikou.Dashboard.service;
 
 import fr.kirikou.Dashboard.OauthService;
 import fr.kirikou.Dashboard.dto.UserRegisterDTO;
+import fr.kirikou.Dashboard.exceptions.InvalidCredentialsException;
 import fr.kirikou.Dashboard.model.User;
 import fr.kirikou.Dashboard.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +23,17 @@ public class UserService {
     @Autowired
     private PasswordEncoder encoder;
 
-    public User createUser(UserRegisterDTO data) throws Exception {
+    public User createUser(UserRegisterDTO data) throws InvalidCredentialsException {
         if (data.getUsername().length() < 4) {
-            throw new Exception("name too short - to change !!!!!!!");
+            throw new InvalidCredentialsException("Username too short");
         }
 
         if (data.getPassword().length() < 8) {
-            throw new Exception("password too short - to change !!!!!!!");
+            throw new InvalidCredentialsException("Password too short");
         }
 
         if (isEmailUsed(data.getEmail())) {
-            throw new Exception("email used - to change !!!!!!!");
+            throw new InvalidCredentialsException("Email already used");
         }
 
         User user = new User();
@@ -43,9 +44,9 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User createUserFromOAuth(OauthService service, String identifier) throws Exception {
+    public User createUserFromOAuth(OauthService service, String identifier) throws InvalidCredentialsException {
         if (isOauthIdentifierUsed(service, identifier)) {
-            throw new Exception("identifier used - to change !!!!!!!");
+            throw new InvalidCredentialsException("Identifier already used");
         }
 
         User user = new User();
@@ -104,6 +105,17 @@ public class UserService {
             case REDDIT: return userRepository.getUserByRedditName(identifier).isPresent();
             default: return false;
         }
+    }
+
+    public void setMailPassword(User user, String email, String password) {
+        user.setEmail(email);
+        user.setPassword(encoder.encode(password));
+        userRepository.save(user);
+    }
+
+    public void setPassword(User user, String password) {
+        user.setPassword(encoder.encode(password));
+        userRepository.save(user);
     }
 
     public List<User> getUsers() {
