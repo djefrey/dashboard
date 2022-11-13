@@ -36,84 +36,140 @@ public class AboutController {
 
         JSONArray services = new JSONArray();
 
-        // weather
-        JSONObject weather = new JSONObject();
-        weather.put("name", "weather");
+        // --- Weather Service ---
+        JSONObject weatherService = new JSONObject();
+        {
+            weatherService.put("name", "weather");
 
-        JSONObject firstWeatherWidget = new JSONObject();
-        firstWeatherWidget.put("name", "Weather Report");
-        firstWeatherWidget.put("description", "Display the current weather and temperature for a city");
+            // Weather widget
+            JSONObject first = new JSONObject();
+            {
+                first.put("name", "Weather Report");
+                first.put("description", "Display the current weather and temperature for a city");
 
-        JSONArray weatherParams = new JSONArray();
-        JSONObject weatherParam = new JSONObject();
-        weatherParam.put("name", "city");
-        weatherParam.put("type", "string");
-        weatherParams.add(weatherParam);
-        firstWeatherWidget.put("params", weatherParams);
+                JSONArray param = new JSONArray();
+                JSONObject params = new JSONObject();
+                params.put("name", "city");
+                params.put("type", "string");
+                param.add(param);
+                first.put("params", params);
+            }
 
-        JSONArray weatherWidgets = new JSONArray();
-        weatherWidgets.add(firstWeatherWidget);
-        weather.put("widgets", weatherWidgets);
-        // weather
+            // Pollution Widget
+            JSONObject second = new JSONObject();
+            {
+                second.put("name", "Pollution Report");
+                second.put("description", "Display the current pollution for a city");
 
-        // pollution
-        JSONObject pollution = new JSONObject();
-        pollution.put("name", "pollution");
+                JSONArray param = new JSONArray();
+                JSONObject params = new JSONObject();
+                params.put("name", "city");
+                params.put("type", "string");
+                param.add(param);
+                second.put("params", params);
+            }
 
-        JSONObject firstPollutionWidget = new JSONObject();
-        firstPollutionWidget.put("name", "Pollution Report");
-        firstPollutionWidget.put("description", "Display the current pollution level for a city");
+            // Widgets Array
+            JSONArray widgets = new JSONArray();
+            widgets.add(first);
+            widgets.add(second);
+            weatherService.put("widgets", widgets);
+        }
+        // --- End Weather Service ---
 
-        JSONArray pollutionParams = new JSONArray();
-        JSONObject pollutionParam = new JSONObject();
-        pollutionParam.put("name", "city");
-        pollutionParam.put("type", "string");
-        pollutionParams.add(pollutionParam);
-        firstPollutionWidget.put("params", pollutionParams);
 
-        JSONArray pollutionWidgets = new JSONArray();
-        pollutionWidgets.add(firstPollutionWidget);
-        pollution.put("widgets", pollutionWidgets);
-        // pollution
 
-        // Youtube
-        JSONObject youtube = new JSONObject();
-        youtube.put("name", "youtube stats");
+        // --- Youtube Service ---
+        JSONObject ytbService = new JSONObject();
+        {
+            ytbService.put("name", "youtube");
 
-        JSONObject firstYoutubeWidget = new JSONObject();
-        firstYoutubeWidget.put("name", "Video Stats");
-        firstYoutubeWidget.put("description", "Show stats for a youtube video");
+            // Stats Widget
+            JSONObject first = new JSONObject();
+            {
+                first.put("name", "Youtube Stats");
+                first.put("description", "Display the statistics of a given video");
 
-        JSONArray youtubeParams = new JSONArray();
-        JSONObject youtubeParam = new JSONObject();
-        youtubeParam.put("name", "video");
-        youtubeParam.put("type", "string");
-        youtubeParams.add(youtubeParam);
-        firstYoutubeWidget.put("params", youtubeParams);
+                JSONArray param = new JSONArray();
+                JSONObject params = new JSONObject();
+                params.put("name", "url");
+                params.put("type", "string");
+                param.add(param);
+                first.put("params", params);
+            }
 
-        JSONObject secondYoutubeWidget = new JSONObject();
-        secondYoutubeWidget.put("name", "Channel Stats");
-        secondYoutubeWidget.put("description", "Show stats for a youtube channel");
+            // Latest Widget
+            JSONObject second = new JSONObject();
+            {
+                second.put("name", "Youtube Latest");
+                second.put("description", "Display the statistics of the latest video of a given channel");
 
-        JSONArray youtubeSecondParams = new JSONArray();
-        JSONObject youtubeSecondParam = new JSONObject();
-        youtubeSecondParam.put("name", "video");
-        youtubeSecondParam.put("type", "string");
-        youtubeSecondParams.add(youtubeSecondParam);
-        secondYoutubeWidget.put("params", youtubeSecondParams);
+                JSONArray param = new JSONArray();
+                JSONObject params = new JSONObject();
+                params.put("name", "channel name");
+                params.put("type", "string");
+                param.add(param);
+                second.put("params", params);
+            }
 
-        JSONArray youtubeWidgets = new JSONArray();
-        youtubeWidgets.add(firstYoutubeWidget);
-        youtubeWidgets.add(secondYoutubeWidget);
-        youtube.put("widgets", youtubeWidgets);
-        // Youtube
+            // Widgets Array
+            JSONArray widgets = new JSONArray();
+            widgets.add(first);
+            widgets.add(second);
+            ytbService.put("widgets", widgets);
+        }
+        // --- End Youtube Service ---
 
-        services.add(weather);
-        services.add(pollution);
-        services.add(youtube);
+
+
+        // --- Reddit Service ---
+        JSONObject redditService = new JSONObject();
+        {
+            redditService.put("name", "reddit");
+
+            // Stats Widget
+            JSONObject first = new JSONObject();
+            {
+                first.put("name", "Reddit Karma");
+                first.put("description", "Display the karma of a given user");
+
+                JSONArray param = new JSONArray();
+                JSONObject params = new JSONObject();
+                params.put("name", "username");
+                params.put("type", "string");
+                param.add(param);
+                first.put("params", params);
+            }
+
+            // Latest Widget
+            JSONObject second = new JSONObject();
+            {
+                second.put("name", "Reddit Top Post");
+                second.put("description", "Display the top post of a given subreddit");
+
+                JSONArray param = new JSONArray();
+                JSONObject params = new JSONObject();
+                params.put("name", "subreddit");
+                params.put("type", "string");
+                param.add(param);
+                second.put("params", params);
+            }
+
+            // Widgets Array
+            JSONArray widgets = new JSONArray();
+            widgets.add(first);
+            widgets.add(second);
+            redditService.put("widgets", widgets);
+        }
+        // --- End Reddit Service ---
+
+        services.add(weatherService);
+        services.add(ytbService);
+        services.add(redditService);
         server.put("services", services);
 
         toSend.put("server", server);
+
         return toSend;
     }
 }
