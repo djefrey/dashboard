@@ -15,8 +15,8 @@ export default function Widget({ id, functionDelete, functionUp, functionDown, w
   return (
     <div className={
       size === 2
-        ? 'h-100 bg-navbar rounded-[30px] mt-5 mr-1 ml-2 flex justify-center'
-        : 'w-5/12 h-100 bg-navbar rounded-[30px] mt-5 ml-10 mr-10 flex justify-center'
+        ? 'h-80 bg-navbar rounded-[30px] mt-5 mr-1 ml-2 flex justify-center'
+        : 'w-5/12 h-80 bg-navbar rounded-[30px] mt-5 ml-10 mr-10 flex justify-center'
     }>
       <div className="w-1/12">
         <button onClick={() => functionUp(id)}>

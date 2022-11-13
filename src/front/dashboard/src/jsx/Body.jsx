@@ -6,10 +6,10 @@ export default function Body({ userInfos, showForm, setShowForm, widgetList}) {
     return(
         <div className="w-screen h-full flex justify-center">
             <div className="w-10/12 h-full bg-body">
-                <div className="w-full h-full flex flex-wrap overflow-y-auto">
+                <div className="w-full h-full flex flex-row flex-wrap overflow-y-auto">
                     {
                         userInfos != null &&
-                        <div>{widgetList}</div>
+                        widgetList
                     }
                     {
                         userInfos == null &&
@@ -23,5 +23,5 @@ export default function Body({ userInfos, showForm, setShowForm, widgetList}) {
                 </button>
             </div>
         </div>
-    ); 
+    );
 }
