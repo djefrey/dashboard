@@ -42,7 +42,7 @@ export default function YoutubeVideoStats(props) {
             if (value != videoId) {
                 setVideoId(value);
 
-                if (value === "") {
+                if (!value || value.length === 0) {
                     setStats(null);
                     return;
                 }

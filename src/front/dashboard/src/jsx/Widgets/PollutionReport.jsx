@@ -38,7 +38,7 @@ export default function PollutionReport(props) {
             };
 
             if (city.input !== newCity) {
-                if (newCity === "") {
+                if (!newCity || newCity.length === 0) {
                     setCity({
                         input: "",
                         name: "",

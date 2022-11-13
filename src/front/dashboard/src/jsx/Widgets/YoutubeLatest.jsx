@@ -32,7 +32,7 @@ export default function YoutubeLatest(props) {
             if (value != channelName) {
                 setChannelName(value);
 
-                if (value === "") {
+                if (!value || value.length === 0) {
                     setStats(null);
                     return;
                 }

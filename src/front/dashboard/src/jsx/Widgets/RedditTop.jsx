@@ -32,7 +32,7 @@ export default function RedditTop(props) {
             if (value != subreddit) {
                 setSubreddit(value);
 
-                if (value === "") {
+                if (!value || value.length === 0) {
                     setTopInfo(null);
                     return;
                 }

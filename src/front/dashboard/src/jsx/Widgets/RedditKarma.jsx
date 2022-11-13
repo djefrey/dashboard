@@ -28,7 +28,7 @@ export default function RedditKarma(props) {
             if (value != user) {
                 setUser(value);
 
-                if (value === "") {
+                if (!value || value.length === 0) {
                     setKarma(null);
                     return;
                 }
