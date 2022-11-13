@@ -48,7 +48,7 @@ export default function Account(props) {
                                     <h3 className='font-bold text-3xl mt-8 mb-6'>Set Logins</h3>
                                     <div className='form-group mt-3'>
                                         <p className="text-start">Email</p>
-                                        <input type="email" name='username' className='w-full bg-body rounded-[4px] h-10 pl-2' placeholder='abc@xyz.com' />
+                                        <input type="email" name='email' className='w-full bg-body rounded-[4px] h-10 pl-2' placeholder='abc@xyz.com' />
                                     </div>
                                     <br />
                                     <div className='form-group mt-3'>

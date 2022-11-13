@@ -6,6 +6,7 @@ import fr.kirikou.Dashboard.model.User;
 import fr.kirikou.Dashboard.service.DashboardUserLogin;
 import fr.kirikou.Dashboard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,25 +27,25 @@ public class UserController {
     @Autowired
     private PasswordEncoder encoder;
 
-    @GetMapping("/")
+    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<UserDTO> getUsers() {
         return userService.getUsers().stream().map(User::toDTO).toList();
     }
 
-    @GetMapping("/me")
+    @GetMapping(value = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDTO getMe() {
         User user = ((DashboardUserLogin) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         return user.toDTO();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDTO getUserInfo(@PathVariable("id") String id) {
         Optional<User> user = userService.getUser(Long.parseLong(id));
         return user.map(User::toDTO).orElse(null);
     }
 
-    @PostMapping("/setmailpassword")
-    public void setMailPassword(@RequestParam String email, @RequestParam String password,
+    @PostMapping(value = "/setmailpassword", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public void setMailPassword(String email, String password,
                                 HttpServletResponse response) throws IOException {
         User user = ((DashboardUserLogin) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
 
@@ -57,8 +58,8 @@ public class UserController {
         response.sendRedirect("/index.html");
     }
 
-    @PostMapping("/setpassword")
-    public void setPassword(@RequestParam String password,
+    @PostMapping(value = "/setpassword", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public void setPassword(String password,
                             HttpServletResponse response) throws IOException {
         User user = ((DashboardUserLogin) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
 
