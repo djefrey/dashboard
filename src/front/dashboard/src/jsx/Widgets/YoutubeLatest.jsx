@@ -48,7 +48,7 @@ export default function YoutubeLatest(props) {
     return (
         <div>
             <p className="font-semibold text-xl mb-3">Youtube Stats</p>
-            <input ref={inputRef} className="bg-body rounded-[4px] pl-2 ml-2 h-8" disabled={props.preview === true} placeholder="Enter a youtube video" type="text"></input>
+            <input ref={inputRef} className="bg-body rounded-[4px] pl-2 ml-2 h-8" disabled={props.preview === true} placeholder="Enter a channel name" type="text"></input>
             <br />
             <p className="font-bold text-gray-200">{stats != null ? truncate(stats.title, 80) : "Unknown channel"}</p>
             <p className="font-bold text-gray-400">
