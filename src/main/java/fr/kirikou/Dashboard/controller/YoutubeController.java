@@ -61,7 +61,7 @@ public class YoutubeController {
             Video video = videos.get(0);
             YoutubeStatsDTO stats = new YoutubeStatsDTO();
             stats.setId(videoId);
-            stats.setName(video.getSnippet().getTitle());
+            stats.setTitle(video.getSnippet().getTitle());
             stats.setViews(video.getStatistics().getViewCount().longValue());
             stats.setLikes(video.getStatistics().getLikeCount().longValue());
             stats.setComments(video.getStatistics().getCommentCount().longValue());
@@ -112,7 +112,7 @@ public class YoutubeController {
 
             YoutubeStatsDTO stats = new YoutubeStatsDTO();
             stats.setId(video.getId());
-            stats.setName(video.getSnippet().getTitle());
+            stats.setTitle(video.getSnippet().getTitle());
             stats.setViews(video.getStatistics().getViewCount().longValue());
             stats.setLikes(video.getStatistics().getLikeCount().longValue());
             stats.setComments(video.getStatistics().getCommentCount().longValue());

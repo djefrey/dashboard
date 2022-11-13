@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class YoutubeStatsDTO {
     private String id;
-    private String name;
+    private String title;
     private long views;
     private long likes;
     private long comments;

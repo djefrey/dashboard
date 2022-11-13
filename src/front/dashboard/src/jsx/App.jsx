@@ -7,6 +7,8 @@ import { useState } from 'react';
 import 'react-dropdown/style.css';
 import PollutionReport from './Widgets/PollutionReport'
 import { useEffect } from 'react'
+import YoutubeVideoStats from './Widgets/YoutubeVideoStats'
+import YoutubeLatest from './Widgets/YoutubeLatest'
 import RedditTop from './Widgets/RedditTop'
 import RedditKarma from './Widgets/RedditKarma'
 
@@ -62,6 +64,12 @@ function App() {
             case "Pollution Report":
                 widget = <PollutionReport preview={false} />;
                 break;
+            case "Youtube Stats":
+                widget = <YoutubeVideoStats preview={false} />;
+                break;
+            case "Youtube Latest":
+                widget = <YoutubeLatest preview={false} />;
+                break;
             case "Reddit Karma":
                 widget = <RedditKarma preview={false} />;
                 break;
@@ -83,7 +91,7 @@ function App() {
         fetch("/api/user/me").then(response => {
             response.json().then(data => {
                 let widgetSelection = [
-                    'Weather Report', 'Pollution Report',
+                    'Weather Report', 'Pollution Report', 'Youtube Stats', 'Youtube Latest',
                 ];
 
                 if (data.hasRedditAccount) {
